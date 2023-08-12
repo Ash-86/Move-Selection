@@ -14,7 +14,7 @@ A collection of MuseScore 4.x plugins for moving a range selection left, right, 
 
  ## Support 
  Making this plugin took time, effort and love.   
- If you appreciate this plugins and find it helpful, you can buying me a beer 
+ If you appreciate this plugin and find it helpful, you can buy me a beer 
  [here](https://www.paypal.com/donate/?hosted_button_id=BH676KMHGVHC8) :)
 
  ## Demo
