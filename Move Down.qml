@@ -73,7 +73,7 @@ MuseScore {
 				// if (e[i].parent.type==Element.CHORD){								
 				// 	removeElement(e[i].parent)
 				// }
-				if (e[i].type==Element.NOTE  ){
+				if (e[i].type==Element.NOTE  ){   //special handling of chords
 					removeElement(e[i].parent)
 				}
 				
@@ -91,20 +91,20 @@ MuseScore {
 			
 
 			/////////not sure why, chords and tuplets  could only get removed by iterating over segments as in the following block
-			// while(cursor.segment && cursor.tick < endTick ) {					
-			// 	var e = cursor.element;
-			// 	var a = cursor.segment.annotations  ////for deleting roman numerals and dynamic markings when chords are presnt
-			// 	if(e.tuplet) {
-			// 		removeElement(e.tuplet); // must specifically remove tuplets
-			// 	} 							
-			// 	else {
-			// 		removeElement(e); ///deletes chords
-			// 	}
-			// 	for (var i in a){				
-			// 		removeElement(a[i])						
-			// 	}				
-			// 	cursor.next();					
-			// }
+			while(cursor.segment && cursor.tick < endTick ) {					
+				var e = cursor.element;
+				// var a = cursor.segment.annotations  ////for deleting roman numerals and dynamic markings when chords are presnt
+				if(e.tuplet) {
+					removeElement(e.tuplet); // must specifically remove tuplets
+				} 							
+				// else {
+				// 	removeElement(e); ///deletes chords
+				// }
+				// for (var i in a){				
+				// 	removeElement(a[i])						
+				// }				
+				cursor.next();					
+			}
 			////////////////////////////////
 			
 			cursor.track=startTrack+4; //// set cursor to staff above

@@ -53,13 +53,26 @@ MuseScore {
 		curScore.selection.selectRange(startTick, endTick, startStaff, endStaff)
 
 		cmd("copy");
-		for (var i in curScore.selection.elements) {
-			if (curScore.selection.elements[i].type==Element.tuplet){
-				removeElement(curScore.selection.elements[i].tuplet)
-			}else{
-				removeElement(curScore.selection.elements[i])
+		var e= curScore.selection.elements
+		for (var i in e) {
+			// if (e[i].type==Element.tuplet){   /// does not work
+			// 	removeElement(e[i].tuplet)
+			// }
+			if (e[i].type==Element.NOTE ){  //special handling of chords
+				removeElement(e[i].parent)				
+			}
+			else{				
+				removeElement(e[i])
 			}
 		}
+
+		while(cursor.segment && cursor.tick < endTick ) {					
+				var e = cursor.element;				
+				if(e.tuplet) {
+					removeElement(e.tuplet); // must specifically remove tuplets					
+				}				
+				cursor.next();					
+			}
 
 		
        	// for (var track=startTrack; track< endTrack; track++){  ///iterate over tracks
