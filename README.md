@@ -1,5 +1,5 @@
 # Move-Selection *Plugins for MuseScore 4.x*
-A collection of MuseScore 4.x plugins for moving a range selection left,right,up, or down.
+A collection of MuseScore 4.x plugins for moving a range selection left, right, up, or down; copy selection to stave above or below, or add an empty measure to selected staves without adding one for the whole system. 
 
 ## Usage
  - Select a range of notes and run the corresponding plugin to move the selection left or right by an eighth note, or move to the staff above or below.
@@ -14,7 +14,7 @@ A collection of MuseScore 4.x plugins for moving a range selection left,right,up
 
  ## Support 
  Making this plugin took time, effort and love.   
- If you appreciate this plugins and find it helpful, please consider buying me a beer:) 
- [Donate here](https://www.paypal.com/donate/?hosted_button_id=BH676KMHGVHC8)
+ If you appreciate this plugin and find it helpful, you can buy me a beer 
+ [here](https://www.paypal.com/donate/?hosted_button_id=BH676KMHGVHC8) :)
 
  ## Demo
