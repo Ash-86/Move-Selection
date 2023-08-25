@@ -23,7 +23,7 @@ import MuseScore 3.0
 
 MuseScore {
 	title: "Move UP"
-	description: "Moves selection to the moveUP by an 1/8 note."
+	description: "Moves selection to the above staff."
 	version: "1.0"
     categoryCode: "composing-arranging-tools"
     thumbnailName: "up.png"
@@ -63,10 +63,10 @@ MuseScore {
 				// if (e[i].type==Element.tuplet){
 				// 	removeElement(e[i].tuplet)
 				// }
-				if (e[i].type==Element.NOTE){	  //special handling of chords				
-					removeElement(e[i].parent)
+				// if (e[i].type==Element.NOTE){	  //special handling of chords				
+				// 	removeElement(e[i].parent)
 					
-				}
+				// }
 				// if (e[i].type==Element.STAFF_TEXT){
 				// 	removeElement(e[i].STAFF_TEXT)
 				// }
@@ -76,28 +76,35 @@ MuseScore {
 				// if (e[i].type==Element.harmony){
 				// 	removeElement(e[i].harmony)
 				// }	
-				else{
-					removeElement(e[i])
-				}				
+				// else{
+					// if (e[i].type==Element.CHORD){continue}
+					removeElement(e[i]) 
+				// }				
 			}
+
+			
 		
 			////////// not sure why, chords could only get removed by iterating over segments as in the following block ////
 			while(cursor.segment && cursor.tick < endTick ) {					
 				var e = cursor.element;
-				// var a = cursor.segment.annotations
+				
+				var a = cursor.segment.annotations
 				if(e.tuplet) {
 					removeElement(e.tuplet); // must specifically remove tuplets
-				// }else {
-				// 	removeElement(e);
-				// }
+				}else {
+					removeElement(e);
+				}
 
-				// for (var i in a){					
-				// 	removeElement(a[i])
+				for (var i in a){					
+					removeElement(a[i])
 					
 				}
 				
 				cursor.next();					
 			}
+
+			
+			
 			////////////////////////////////
 		
 			cursor.track=startTrack-4; //// set cursor to staff above

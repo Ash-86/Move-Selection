@@ -23,7 +23,7 @@ import MuseScore 3.0
 
 MuseScore {
 	title: "Move DOWN"
-	description: "Moves selection to the moveDOWN by an 1/8 note."
+	description: "Moves selection to the staff below."
 	version: "1.0"
     categoryCode: "composing-arranging-tools"
     thumbnailName: "down.png"
@@ -73,9 +73,9 @@ MuseScore {
 				// if (e[i].parent.type==Element.CHORD){								
 				// 	removeElement(e[i].parent)
 				// }
-				if (e[i].type==Element.NOTE  ){   //special handling of chords
-					removeElement(e[i].parent)
-				}
+				// if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
+				// 	removeElement(e[i].parent)
+				// }
 				
 			// 	// if (e[i].type==Element.STAFF_TEXT){ //is not needed aparently 
 			// 	// 	removeElement(e[i].STAFF_TEXT)
@@ -83,9 +83,9 @@ MuseScore {
 			// 	// if (e[i].type==Element.LYRIC){  //is not needed 
 			// 	// 	removeElement(e[i].LYRIC)
 			// 	// }							
-				else{
+				// else{
 					removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
-				}				
+				// }				
 			}
 		
 			
@@ -93,16 +93,16 @@ MuseScore {
 			/////////not sure why, chords and tuplets  could only get removed by iterating over segments as in the following block
 			while(cursor.segment && cursor.tick < endTick ) {					
 				var e = cursor.element;
-				// var a = cursor.segment.annotations  ////for deleting roman numerals and dynamic markings when chords are presnt
+				var a = cursor.segment.annotations  ////for deleting roman numerals and dynamic markings when chords are presnt
 				if(e.tuplet) {
 					removeElement(e.tuplet); // must specifically remove tuplets
 				} 							
-				// else {
-				// 	removeElement(e); ///deletes chords
-				// }
-				// for (var i in a){				
-				// 	removeElement(a[i])						
-				// }				
+				else {
+					removeElement(e); ///deletes chords
+				}
+				for (var i in a){				
+					removeElement(a[i])						
+				}				
 				cursor.next();					
 			}
 			////////////////////////////////
