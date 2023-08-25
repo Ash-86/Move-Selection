@@ -59,26 +59,12 @@ MuseScore {
 
 			var e = curScore.selection.elements
 			for (var i in e) {
-				if (e[i].type==Element.tuplet){
-					removeElement(e[i].tuplet)
-				}
-				if (e[i].type==Element.CHORD){
-					for (var j in e[i].notes){
-						e[i].remove(notes[j])
-					}
-				}
-				if (e[i].type==Element.STAFF_TEXT){
-					removeElement(e[i].STAFF_TEXT)
-				}
-				if (e[i].type==Element.LYRIC){
-					removeElement(e[i].LYRIC)
-				}	
-				// if (e[i].type==Element.harmony){
-				// 	removeElement(e[i].harmony)
-				// }		
-				else{
-					removeElement(e[i])
-				}				
+				// if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
+				// 	removeElement(e[i].parent)
+				// }
+				// else{
+					removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
+				// }				
 			}
 			
 			/////////////////////////////

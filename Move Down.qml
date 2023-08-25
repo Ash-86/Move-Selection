@@ -53,39 +53,20 @@ MuseScore {
 			quit()   /// Don't run beyond lowest staff 
 		}else{
 			
+			cmd("copy");
 
 			curScore.startCmd();
 
-			cmd("copy");
 			
 
 			var e = curScore.selection.elements
-			for (var i in e) {
-				
-				// cusror.rewind(e[i].tick)
-				// if (e[i].type==Element.tuplet){ ///doesnt work
-				// 	removeElement(e[i].tuplet)
-				// }
-				// if(e[i].tuplet) {
-				// 	removeElement(e[i].tuplet); // must specifically remove tuplets
-				// } 		
-
-				// if (e[i].parent.type==Element.CHORD){								
-				// 	removeElement(e[i].parent)
-				// }
+			for (var i in e) {					
 				// if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
 				// 	removeElement(e[i].parent)
 				// }
-				
-			// 	// if (e[i].type==Element.STAFF_TEXT){ //is not needed aparently 
-			// 	// 	removeElement(e[i].STAFF_TEXT)
-			// 	// }				
-			// 	// if (e[i].type==Element.LYRIC){  //is not needed 
-			// 	// 	removeElement(e[i].LYRIC)
-			// 	// }							
 				// else{
 					removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
-				// }				
+				// }								
 			}
 		
 			
