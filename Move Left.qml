@@ -82,20 +82,24 @@ MuseScore {
 			}
 			
 			/////////////////////////////
-			while(cursor.segment && cursor.tick < endTick ) {					
-				var e = cursor.element;
-				var a = cursor.segment.annotations
-				if(e.tuplet) {
-					removeElement(e.tuplet); // must specifically remove tuplets
-				} 				
-				else {
-					removeElement(e);
-				}
-				for (var i in a){
-					removeElement(a[i])
-				}
-				
-				cursor.next();					
+			for (var track=startTrack; track<endTrack; track++){
+				cursor.track=track
+				cursor.rewindToTick(startTick)
+				while(cursor.element && cursor.tick < endTick ) {					
+					var e = cursor.element;
+					var a = cursor.segment.annotations
+					if(e.tuplet) {
+						removeElement(e.tuplet); // must specifically remove tuplets
+					} 				
+					else {
+						removeElement(e);
+					}
+					for (var i in a){
+						removeElement(a[i])
+					}
+					
+					cursor.next();
+				}								
 			}
 			////////////////////////////////
 			

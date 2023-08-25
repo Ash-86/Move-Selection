@@ -91,19 +91,19 @@ MuseScore {
 			
 
 			/////////not sure why, chords and tuplets  could only get removed by iterating over segments as in the following block
-			while(cursor.segment && cursor.tick < endTick ) {					
-				var e = cursor.element;
-				var a = cursor.segment.annotations  ////for deleting roman numerals and dynamic markings when chords are presnt
-				if(e.tuplet) {
-					removeElement(e.tuplet); // must specifically remove tuplets
-				} 							
-				else {
-					removeElement(e); ///deletes chords
+			for (var track=startTrack; track<endTrack; track++){ 
+				cursor.track=track
+				cursor.rewindToTick(startTick)
+				while(cursor.element && cursor.tick < endTick ) {					
+					var e = cursor.element;
+					var a = cursor.segment.annotations  ////for deleting roman numerals and dynamic markings when chords are presnt
+					if (e.tuplet) {removeElement(e.tuplet)} // must specifically remove tuplets
+					else {removeElement(e)} ///deletes chords
+					for (var i in a){				
+						removeElement(a[i])						
+					}				
+					cursor.next();					
 				}
-				for (var i in a){				
-					removeElement(a[i])						
-				}				
-				cursor.next();					
 			}
 			////////////////////////////////
 			

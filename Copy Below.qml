@@ -59,8 +59,8 @@ MuseScore {
 			cmd("copy");						
 			
 			////////////////////////////////
-			
-			cursor.track=startTrack+4; //// set cursor to staff above
+			var stavesN= endStaff - startStaff
+			cursor.track=startTrack+stavesN*4; //// set cursor to staff above
 			cursor.rewindToTick(startSegTick); // go back to beginning of selection
 					
 			/////// In case the startTick at lower staff falls within the space of an element, 
