@@ -23,7 +23,7 @@ import MuseScore 3.0
 
 MuseScore {
 	title: "Insert Bar"
-	description: "Inserts an empty bar before the selected staves only."
+	description: "Inserts an empty measure before the selected staves only."
 	version: "1.0"
     categoryCode: "composing-arranging-tools"
     thumbnailName: "do.png"
@@ -53,41 +53,36 @@ MuseScore {
 		curScore.selection.selectRange(startTick, endTick, startStaff, endStaff)
 
 		cmd("copy");
-		var e= curScore.selection.elements
+		
+		var e = curScore.selection.elements
 		for (var i in e) {
-			// if (e[i].type==Element.tuplet){   /// does not work
-			// 	removeElement(e[i].tuplet)
-			// }
-			if (e[i].type==Element.NOTE ){  //special handling of chords
-				removeElement(e[i].parent)				
-			}
-			else{				
-				removeElement(e[i])
-			}
+			// if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
+				// 	removeElement(e[i].parent)
+				// }
+				// else{					
+					removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
+				// }			
 		}
 
-		while(cursor.segment && cursor.tick < endTick ) {					
+		////////////////////////////////
+		for (var track=startTrack; track<endTrack; track++){
+			cursor.track=track
+			cursor.rewindToTick(startTick)
+			while(cursor.element && cursor.tick < endTick ) {					
 				var e = cursor.element;				
+				var a = cursor.segment.annotations
 				if(e.tuplet) {
-					removeElement(e.tuplet); // must specifically remove tuplets					
+					removeElement(e.tuplet); // must specifically remove tuplets
+				} 				
+				else {
+					removeElement(e);
+				}
+				for (var i in a){
+					removeElement(a[i])
 				}				
 				cursor.next();					
 			}
-
-		
-       	// for (var track=startTrack; track< endTrack; track++){  ///iterate over tracks
-		// 	cursor.track=track;
-		// 	cursor.rewindToTick(startTick);
-            // while(cursor.segment && cursor.tick < endTick) {
-            //     var e = cursor.element;
-			//     if(e.type==Element.tuplet) {removeElement(e.tuplet)} // you have to specifically remove tuplets
-			//     if(e.type==Element.LYRIC) {removeElement(e.LYRIC)} // you have to specifically remove tuplets
-            //     if(e.type==Element.Note) {removeElement(e.Note)}  
-			// 	if(e.type==Element.STAFF_TEXT) {removeElement(e.STAFF_TEXT)}          
-            //     cursor.next(); // advance cursor
-                
-            // }            
-        // }		
+		}
 	
 		cursor.track=startTrack;
 		cursor.rewindToTick(startSegTick);
@@ -105,7 +100,7 @@ MuseScore {
 	}		
 
 	onRun: {
-        curScore.startCmd();
+        curScore.startCmd()
 		insertBar();
         curScore.endCmd();
         quit();
