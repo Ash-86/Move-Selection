@@ -34,7 +34,7 @@ MuseScore {
 
 		//// Choose here the duration by which to move right ////
 		var dur= 8  /// 4 for quarter note;  8 for eighth note; 16 for sixteenth note; etc... 
-
+		////////////////////////////////////////////////////////
 
 
 		///// get start and end tics,staff,and track, for selection 
