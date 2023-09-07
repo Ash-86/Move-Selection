@@ -31,6 +31,10 @@ MuseScore {
 
 
     onRun: {
+		//// Choose here the duration by which to move left ////
+		var dur= 8  /// 4 for quarter note;  8 for eighth note; 16 for sixteenth note; etc... 
+
+
 		///// get start and end tics,staff,and track, for selection 
 		var cursor = curScore.newCursor(); 				
 		//end
@@ -93,8 +97,8 @@ MuseScore {
 			cursor.track=startTrack;
 			cursor.rewindToTick(startSegTick)       
 			cursor.prev();
-			while(startSegTick-cursor.tick !=division/2){
-				if (startSegTick-cursor.tick > division/2) {	
+			while(startSegTick-cursor.tick !=division*4/dur){
+				if (startSegTick-cursor.tick > division*4/dur) {	
 					var n=cursor.element.duration.numerator;
 					var d=cursor.element.duration.denominator;					
 					cursor.setDuration(n, d*2);
@@ -102,7 +106,7 @@ MuseScore {
 					cursor.rewindToTick(startSegTick);
 					cursor.prev();													
 				}
-				if (startSegTick-cursor.tick < division/2) {						
+				if (startSegTick-cursor.tick < division*4/dur) {						
 					cursor.prev();													
 				}							
 			}					
