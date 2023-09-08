@@ -60,31 +60,37 @@ MuseScore {
 
 			var e = curScore.selection.elements
 			for (var i in e) {
-				// if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
-				// 	removeElement(e[i].parent)
-				// }
-				// else{
+				if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
+					removeElement(e[i].parent)				
+				}
+				
+				else{
 					removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
-				// }	
+				}	
 			}
 
 			
 		
 			////////// not sure why, chords could only get removed by iterating over segments as in the following block ////
-			for (var track=startTrack; track<endTrack; track++){ 
-				cursor.track=track
-				cursor.rewindToTick(startTick)
-				while(cursor.element && cursor.tick < endTick ) {					
-					var e = cursor.element;					
-					var a = cursor.segment.annotations
-					if(e.tuplet) {removeElement(e.tuplet)} // must specifically remove tuplets
-					else {removeElement(e)}
-					for (var i in a){					
-						removeElement(a[i])						
-					}					
-					cursor.next();					
-				}
-			}
+			// for (var track=startTrack; track<endTrack; track++){ 
+			// 	cursor.track=track
+			// 	cursor.rewindToTick(startTick)
+			// 	while(cursor.element && cursor.tick < endTick ) {					
+			// 		var e = cursor.element;					
+			// 		var a = cursor.segment.annotations
+			// 		if(e.tuplet) {removeElement(e.tuplet)} // must specifically remove tuplets
+			// 		if (e.type==Element.Chord){
+			// 			// e[i].parent.remove(e[i])
+			// 			for (n in e[i].notes)
+			// 			e[i].remove(e[i].notes[n])
+			// 		}					
+			// 		else {removeElement(e)}
+			// 		for (var i in a){					
+			// 			removeElement(a[i])						
+			// 		}					
+			// 		cursor.next();					
+			// 	}
+			// }
 
 			
 			
