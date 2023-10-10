@@ -1,39 +1,46 @@
-//========================================================================
-// Move Right v1.0                                          
-// https://github.com/Ash-86/Move-Selection                    
-//                                                                        
-//  Copyright (C)2023 Ashraf El Droubi (Ash-86)                           
-//                                                                        
-//  This program is free software: you can redistribute it and/or modify  
-//  it under the terms of the GNU General Public License as published by  
-//  the Free Software Foundation, either version 3 of the License, or     
-//  (at your option) any later version.                                   
-//                                                                        
-//  This program is distributed in the hope that it will be useful,       
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of        
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-//  GNU General Public License for more details.                          
-//                                                                        
-//  You should have received a copy of the GNU General Public License     
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>. 
-//========================================================================
+/*========================================================================
+  Move Selection                                         
+  https://github.com/Ash-86/Move-Selection                    
+                                                                        
+  Copyright (C)2023 Ashraf El Droubi (Ash-86)                           
+                                                                        
+  This program is free software: you can redistribute it and/or modify  
+  it under the terms of the GNU General Public License as published by  
+  the Free Software Foundation, either version 3 of the License, or     
+  (at your option) any later version.                                   
+                                                                        
+  This program is distributed in the hope that it will be useful,       
+  but WITHOUT ANY WARRANTY; without even the implied warranty of        
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
+  GNU General Public License for more details.                          
+                                                                        
+  You should have received a copy of the GNU General Public License     
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+=========================================================================*/
 
 import QtQuick 2.0
 import MuseScore 3.0
 
 MuseScore {
-	title: "Move RIGHT"
+	menuPath: "Plugins.Move/Duplicate Selection.Move Right"
 	description: "Moves selection to the Right by an 1/8 note."
 	version: "1.0"
-    categoryCode: "composing-arranging-tools"
-    thumbnailName: "right.png"
+    
 	
-
+	Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+            title= "Move Right"
+            thumbnailName = "right.png"
+            categoryCode = "composing-arranging-tools"
+        }
+    }	
 
     onRun: {
 
 		//// Choose here the duration by which to move right ////
+
 		var dur= 8  /// 4 for quarter note;  8 for eighth note; 16 for sixteenth note; etc... 
+		
 		////////////////////////////////////////////////////////
 
 
@@ -120,6 +127,7 @@ MuseScore {
         
 	
         curScore.endCmd();
-        quit();
+        if (mscoreMajorVersion >= 4) {quit()}
+            else{Qt.quit()}  
 	}
 }

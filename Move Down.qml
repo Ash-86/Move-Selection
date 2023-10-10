@@ -1,33 +1,39 @@
-//========================================================================
-// Move Down v1.0                                         
-// https://github.com/Ash-86/Move-Selection                    
-//                                                                       
-//  Copyright (C)2023 Ashraf El Droubi (Ash-86)                          
-//                                                                       
-//  This program is free software: you can redistribute it and/or modify 
-//  it under the terms of the GNU General Public License as published by 
-//  the Free Software Foundation, either version 3 of the License, or    
-//  (at your option) any later version.                                  
-//                                                                       
-//  This program is distributed in the hope that it will be useful,      
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of       
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        
-//  GNU General Public License for more details.                         
-//                                                                       
-//  You should have received a copy of the GNU General Public License    
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//========================================================================
+/*========================================================================
+  Move Selection                                         
+  https://github.com/Ash-86/Move-Selection                    
+                                                                        
+  Copyright (C)2023 Ashraf El Droubi (Ash-86)                           
+                                                                        
+  This program is free software: you can redistribute it and/or modify  
+  it under the terms of the GNU General Public License as published by  
+  the Free Software Foundation, either version 3 of the License, or     
+  (at your option) any later version.                                   
+                                                                        
+  This program is distributed in the hope that it will be useful,       
+  but WITHOUT ANY WARRANTY; without even the implied warranty of        
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
+  GNU General Public License for more details.                          
+                                                                        
+  You should have received a copy of the GNU General Public License     
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+=========================================================================*/
 
 import QtQuick 2.0
 import MuseScore 3.0
 
 MuseScore {
-	title: "Move DOWN"
+	menuPath: "Plugins.Move/Duplicate Selection.Move to Staff Below"
 	description: "Moves selection to the staff below."
 	version: "1.0"
-    categoryCode: "composing-arranging-tools"
-    thumbnailName: "down.png"
-	
+    
+    
+	Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+            title= "Move to Staff Below"
+            thumbnailName = "down.png"
+            categoryCode = "composing-arranging-tools"
+        }
+    }	  
 
 
     onRun: {
@@ -50,7 +56,8 @@ MuseScore {
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
 		if (endStaff==curScore.nstaves){ 
-			quit()   /// Don't run beyond lowest staff 
+			if (mscoreMajorVersion >= 4) {quit()}
+            else{Qt.quit()}     /// Don't run beyond lowest staff 
 		}else{
 			
 			cmd("copy");
@@ -123,7 +130,8 @@ MuseScore {
 			
 			
 			curScore.endCmd();
-			quit();
+			if (mscoreMajorVersion >= 4) {quit()}
+            else{Qt.quit()}  
 		}///end else
 	}///end onRun
 }	

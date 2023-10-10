@@ -1,34 +1,38 @@
-//========================================================================
-// Move Up v1.0                                         
-// https://github.com/Ash-86/Move-Selection                    
-//                                                                       
-//  Copyright (C)2023 Ashraf El Droubi (Ash-86)                          
-//                                                                       
-//  This program is free software: you can redistribute it and/or modify 
-//  it under the terms of the GNU General Public License as published by 
-//  the Free Software Foundation, either version 3 of the License, or    
-//  (at your option) any later version.                                  
-//                                                                       
-//  This program is distributed in the hope that it will be useful,      
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of       
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        
-//  GNU General Public License for more details.                         
-//                                                                       
-//  You should have received a copy of the GNU General Public License    
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//========================================================================
+/*========================================================================
+  Move Selection                                         
+  https://github.com/Ash-86/Move-Selection                    
+                                                                        
+  Copyright (C)2023 Ashraf El Droubi (Ash-86)                           
+                                                                        
+  This program is free software: you can redistribute it and/or modify  
+  it under the terms of the GNU General Public License as published by  
+  the Free Software Foundation, either version 3 of the License, or     
+  (at your option) any later version.                                   
+                                                                        
+  This program is distributed in the hope that it will be useful,       
+  but WITHOUT ANY WARRANTY; without even the implied warranty of        
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
+  GNU General Public License for more details.                          
+                                                                        
+  You should have received a copy of the GNU General Public License     
+  along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+=========================================================================*/
 
 import QtQuick 2.0
 import MuseScore 3.0
 
 MuseScore {
-	title: "Move UP"
-	description: "Moves selection to the above staff."
-	version: "1.0"
-    categoryCode: "composing-arranging-tools"
-    thumbnailName: "up.png"
+	menuPath: "Plugins.Move/Duplicate Selection.Move to Staff Above"
+	description: "Moves selection to the staff above."
+	version: "1.0"    
 	
-
+	Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+            title= "Move to Staff Above"
+            thumbnailName = "up.png"
+            categoryCode = "composing-arranging-tools"
+        }
+    }	
 
     onRun: {
 		///// get start and end tics,staff,and track, for selection 
@@ -49,7 +53,8 @@ MuseScore {
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
 		if (startStaff==0){ 
-			quit()    /// dont run beyond top staff 
+			if (mscoreMajorVersion >= 4) {quit()}
+            else{Qt.quit()}      /// dont run beyond top staff 
 		}else{
 		
 			curScore.startCmd();
@@ -132,7 +137,8 @@ MuseScore {
 			
 			
 			curScore.endCmd();
-			quit();
+			if (mscoreMajorVersion >= 4) {quit()}
+            else{Qt.quit()}  
 		}///end else
 	}///end onRun
 }	
