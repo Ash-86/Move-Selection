@@ -63,8 +63,7 @@ MuseScore {
 		///////////////////////////////////////////////////////////////
 		// var firstTick=curScore.firstMeasure.firstSegment.tick
 		if (startSegTick==0) { 
-			if (mscoreMajorVersion >= 4) {quit()}
-            else{Qt.quit()}    ////dont run beyond first segment of score
+			return
 		}else{
 			curScore.startCmd();
 
@@ -142,9 +141,7 @@ MuseScore {
 			cmd("paste");
 
 			
-			curScore.endCmd();
-			if (mscoreMajorVersion >= 4) {quit()}
-            else{Qt.quit()}  
+			curScore.endCmd()			 
 		}//end else
 	}//end on run
 }

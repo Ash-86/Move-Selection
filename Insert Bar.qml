@@ -106,8 +106,6 @@ MuseScore {
 	onRun: {
         curScore.startCmd()
 		insertBar();
-        curScore.endCmd();
-        if (mscoreMajorVersion >= 4) {quit()}
-        else{Qt.quit()}  
+        curScore.endCmd()        
 	}
 }

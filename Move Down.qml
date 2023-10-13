@@ -56,8 +56,7 @@ MuseScore {
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
 		if (endStaff==curScore.nstaves){ 
-			if (mscoreMajorVersion >= 4) {quit()}
-            else{Qt.quit()}     /// Don't run beyond lowest staff 
+			return
 		}else{
 			
 			cmd("copy");
@@ -130,8 +129,7 @@ MuseScore {
 			
 			
 			curScore.endCmd();
-			if (mscoreMajorVersion >= 4) {quit()}
-            else{Qt.quit()}  
+			 
 		}///end else
 	}///end onRun
 }	
