@@ -25,7 +25,12 @@ MuseScore {
 	menuPath: "Plugins.Move/Duplicate Selection.Insert Empty Measure Before Selection"
 	description: "Inserts an empty measure before the selected staves only."
 	version: "1.0"    
-	
+
+
+	//4.4 title:"Insert Empty Measure Before Selection"
+	//4.4 thumbnailName: "do.png"
+	//4.4 categoryCode: "composing-arranging-tools"
+
 	Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
             title= "Insert Empty Measure Before Selection"

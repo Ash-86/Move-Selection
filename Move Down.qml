@@ -26,7 +26,10 @@ MuseScore {
 	description: "Moves selection to the staff below."
 	version: "1.0"
     
-    
+    //4.4 title: "Move to Staff Below"
+    //4.4 thumbnailName: "down.png"
+    //4.4 categoryCode: "composing-arranging-tools"
+
 	Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
             title= "Move to Staff Below"

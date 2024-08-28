@@ -26,6 +26,10 @@ MuseScore {
 	description: "Duplicates selection to the staff below."
 	version: "1.0"
     
+	//4.4 title: "Duplicate to Staff Below"
+	//4.4 thumbnailName: "do.png"
+	//4.4 categoryCode: "composing-arranging-tools"
+
 	Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
             title= "Duplicate to Staff Below"

@@ -26,6 +26,9 @@ MuseScore {
 	description: "Moves selection to the Right by an 1/8 note."
 	version: "1.0"
     
+	//4.4 title: "Move Right"
+	//4.4 thumbnailName: "right.png"
+	//4.4 categoryCode: "composing-arranging-tools"
 	
 	Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
