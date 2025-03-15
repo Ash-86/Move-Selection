@@ -28,13 +28,13 @@ MuseScore {
 	
 	//4.4 title: "Move to Staff Above"
     //4.4 thumbnailName: "up.png"
-    //4.4 categoryCode: "composing-arranging-tools"
+    //4.4 categoryCode: "Move selection"
 	
 	Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
             title= "Move to Staff Above"
             thumbnailName = "up.png"
-            categoryCode = "composing-arranging-tools"
+            categoryCode = "Move selection"
         }
     }	
 

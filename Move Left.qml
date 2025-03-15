@@ -28,13 +28,13 @@ MuseScore {
     
 	//4.4 title: "Move Left"
 	//4.4 thumbnailName: "left.png"
-	//4.4 categoryCode: "composing-arranging-tools"
+	//4.4 categoryCode: "Move selection"
 
 	Component.onCompleted : {
         if (mscoreMajorVersion >= 4) {
             title= "Move Left"
             thumbnailName = "left.png"
-            categoryCode = "composing-arranging-tools"
+            categoryCode = "Move selection"
         }
     }	 
 
