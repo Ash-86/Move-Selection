@@ -58,52 +58,55 @@ MuseScore {
 		var startStaff = cursor.staffIdx;
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
-		if (endStaff==curScore.nstaves){
+		var targetStaff = endStaff 
+		while (targetStaff <= curScore.nstaves && curScore.staves[targetStaff].visible == false) { //// skip invisible staves
+			targetStaff ++
+		}
+		if (targetStaff >= curScore.nstaves) {
 			return
-		}else{
+		}
 
 
-			curScore.startCmd();
+		curScore.startCmd("Duplicate to Staff Below");
 
-			cmd("copy");						
-			
-			////////////////////////////////
-			var stavesN= endStaff - startStaff
-			cursor.track=startTrack+stavesN*4; //// set cursor to staff above
-			cursor.rewindToTick(startSegTick); // go back to beginning of selection
-					
-			/////// In case the startTick at lower staff falls within the space of an element, 
-			/////// (cursor.tick in this case returns tick of next element)
-			//////// navigate to previous element and addRest until element tick coincides with startTick. 			
-							
-			if (cursor.tick > startSegTick){	/// it seems empty measure have to have special condition to prepare measure
-				cursor.prev();
-				cursor.setDuration(1, 4);
-				cursor.addRest();					
-				cursor.rewindToTick(startSegTick);	
-			}
-
-			while(cursor.tick > startSegTick){	
-				cursor.prev();
-				var n=cursor.element.duration.numerator;
-				var d=cursor.element.duration.denominator;					
-				cursor.setDuration(n, d*2);
-				cursor.addRest();					
-				cursor.rewindToTick(startSegTick);			
-			}	
+		cmd("copy");						
 		
-			///////////////////////////////////////////////
+		////////////////////////////////
+		var stavesN= endStaff - startStaff
+		cursor.track = targetStaff * 4; //// set cursor to staff above
+		cursor.rewindToTick(startSegTick); // go back to beginning of selection
+				
+		/////// In case the startTick at lower staff falls within the space of an element, 
+		/////// (cursor.tick in this case returns tick of next element)
+		//////// navigate to previous element and addRest until element tick coincides with startTick. 			
+						
+		if (cursor.tick > startSegTick){	/// it seems empty measure have to have special condition to prepare measure
+			cursor.prev();
+			cursor.setDuration(1, 4);
+			cursor.addRest();					
+			cursor.rewindToTick(startSegTick);	
+		}
 
-			if (cursor.element.type==Element.CHORD){
-				curScore.selection.select(cursor.element.notes[0])
-			}else {
-				curScore.selection.select(cursor.element)
-			}
+		while(cursor.tick > startSegTick){	
+			cursor.prev();
+			var n=cursor.element.duration.numerator;
+			var d=cursor.element.duration.denominator;					
+			cursor.setDuration(n, d*2);
+			cursor.addRest();					
+			cursor.rewindToTick(startSegTick);			
+		}	
+	
+		///////////////////////////////////////////////
 
-			cmd("paste");			
-			
-			curScore.endCmd()
-			 
-		}///end else
+		if (cursor.element.type==Element.CHORD){
+			curScore.selection.select(cursor.element.notes[0])
+		}else {
+			curScore.selection.select(cursor.element)
+		}
+
+		cmd("paste");			
+		
+		curScore.endCmd()			
+		
 	}///end onRun
 }	

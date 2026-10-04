@@ -57,56 +57,60 @@ MuseScore {
 		var startStaff = cursor.staffIdx;
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
-		if (startStaff==0){
+
+		var targetStaff = startStaff - 1
+		while (targetStaff >= 0 && curScore.staves[targetStaff].visible == false) { //// skip invisible staves
+			targetStaff --
+		}
+		if (targetStaff < 0) {
 			return
-		}else{
+		}
 		
-			curScore.startCmd();
+		curScore.startCmd("Duplicate to Staff Above");
 
 
-			cmd("copy");
-					
-			var stavesN= endStaff - startStaff
-			cursor.track=startTrack-stavesN*4; //// set cursor to staff above
-			cursor.rewindToTick(startSegTick); // go back to beginning of selection
-					
-			/////// In case the startSegTick at lower staff falls within the space of an element, 
-			/////// (cursor.tick in this case returns tick of next element)
-			//////// navigate to previous element and addRest until element tick coincides with startSegTick. 			
-								
-					
-			if (cursor.tick > startSegTick){	/// for empty measures with odd time signature, in order not to end up with awkward rest durations resulting from dividing by 2.
-				cursor.prev();
-				cursor.setDuration(1, 4);
-				cursor.addRest();					
-				cursor.rewindToTick(startSegTick);	
-			}
-			while(cursor.tick > startSegTick){	
-				cursor.prev();
-				var n=cursor.element.duration.numerator;
-				var d=cursor.element.duration.denominator;					
-				cursor.setDuration(n, d*2);
-				cursor.addRest();					
-				cursor.rewindToTick(startSegTick);					
-			}														
-			
+		cmd("copy");
 				
-					///////////////////////////////////////////////      		
-			
-			if (cursor.element.type==Element.CHORD){ ///special case to select chords if they exist
-				curScore.selection.select(cursor.element.notes[0])
-			}else {
-				curScore.selection.select(cursor.element)
-			}
-
-			cmd("paste");
-			
-
+		var stavesN = endStaff - startStaff
+		cursor.track = targetStaff * 4; //// set cursor to staff above
+		cursor.rewindToTick(startSegTick); // go back to beginning of selection
+				
+		/////// In case the startSegTick at lower staff falls within the space of an element, 
+		/////// (cursor.tick in this case returns tick of next element)
+		//////// navigate to previous element and addRest until element tick coincides with startSegTick. 			
+							
+				
+		if (cursor.tick > startSegTick){	/// for empty measures with odd time signature, in order not to end up with awkward rest durations resulting from dividing by 2.
+			cursor.prev();
+			cursor.setDuration(1, 4);
+			cursor.addRest();					
+			cursor.rewindToTick(startSegTick);	
+		}
+		while(cursor.tick > startSegTick){	
+			cursor.prev();
+			var n = cursor.element.duration.numerator;
+			var d = cursor.element.duration.denominator;					
+			cursor.setDuration(n, d*2);
+			cursor.addRest();					
+			cursor.rewindToTick(startSegTick);					
+		}														
 		
 			
-			
-			curScore.endCmd();
-			             
-		}///end else
+				///////////////////////////////////////////////      		
+		
+		if (cursor.element.type==Element.CHORD){ ///special case to select chords if they exist
+			curScore.selection.select(cursor.element.notes[0])
+		}else {
+			curScore.selection.select(cursor.element)
+		}
+
+		cmd("paste");
+		
+
+	
+		
+		
+		curScore.endCmd();					
+		
 	}///end onRun
 }	

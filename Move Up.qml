@@ -56,90 +56,95 @@ MuseScore {
 		var startStaff = cursor.staffIdx;
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
-		if (startStaff==0){ 
+
+		var targetStaff = startStaff - 1
+		while (targetStaff >= 0 && curScore.staves[targetStaff].visible == false) { //// skip invisible staves
+			targetStaff --
+		}
+		if (targetStaff < 0) {
 			return
-		}else{
+		}
 		
-			curScore.startCmd();
+		curScore.startCmd("Move to Staff Above");
 
 
-			cmd("copy");		
+		cmd("copy");		
 
 
-			var e = curScore.selection.elements
-			for (var i in e) {
-				if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
-					removeElement(e[i].parent)				
-				}
-				
-				else{
-					removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
-				}	
-			}
-
+		// var e = curScore.selection.elements
+		// for (var i in e) {
+		// 	if (e[i].type==Element.NOTE  ){   //special handling of chords  ////  crashes when undoing
+		// 		removeElement(e[i].parent)				
+		// 	}
 			
+		// 	else{
+		// 		removeElement(e[i]) /// deletes everything exept tuplets when there are single notes (no chords)
+		// 	}	
+		// }
+		cmd("delete")
 		
-			////////// not sure why, chords could only get removed by iterating over segments as in the following block ////
-			// for (var track=startTrack; track<endTrack; track++){ 
-			// 	cursor.track=track
-			// 	cursor.rewindToTick(startTick)
-			// 	while(cursor.element && cursor.tick < endTick ) {					
-			// 		var e = cursor.element;					
-			// 		var a = cursor.segment.annotations
-			// 		if(e.tuplet) {removeElement(e.tuplet)} // must specifically remove tuplets
-			// 		if (e.type==Element.Chord){
-			// 			// e[i].parent.remove(e[i])
-			// 			for (n in e[i].notes)
-			// 			e[i].remove(e[i].notes[n])
-			// 		}					
-			// 		else {removeElement(e)}
-			// 		for (var i in a){					
-			// 			removeElement(a[i])						
-			// 		}					
-			// 		cursor.next();					
-			// 	}
-			// }
+	
+		////////// not sure why, chords could only get removed by iterating over segments as in the following block ////
+		// for (var track=startTrack; track<endTrack; track++){ 
+		// 	cursor.track=track
+		// 	cursor.rewindToTick(startTick)
+		// 	while(cursor.element && cursor.tick < endTick ) {					
+		// 		var e = cursor.element;					
+		// 		var a = cursor.segment.annotations
+		// 		if(e.tuplet) {removeElement(e.tuplet)} // must specifically remove tuplets
+		// 		if (e.type==Element.Chord){
+		// 			// e[i].parent.remove(e[i])
+		// 			for (n in e[i].notes)
+		// 			e[i].remove(e[i].notes[n])
+		// 		}					
+		// 		else {removeElement(e)}
+		// 		for (var i in a){					
+		// 			removeElement(a[i])						
+		// 		}					
+		// 		cursor.next();					
+		// 	}
+		// }
 
-			
-			
-			////////////////////////////////
 		
-			cursor.track=startTrack-4; //// set cursor to staff above
-			cursor.rewindToTick(startSegTick); // go back to beginning of selection
-			
-			/////// In case the startSegTick at lower staff falls within the space of an element, 
-			/////// (cursor.tick in this case returns tick of next element)
-			//////// navigate to previous element and addRest until element tick coincides with startSegTick. 			
-						
-			if (cursor.tick > startSegTick){	/// for empty measures with odd time signature, in order not to end up with awkward rest durations resulting from dividing by 2.
-				cursor.prev();
-				cursor.setDuration(1, 4);
-				cursor.addRest();					
-				cursor.rewindToTick(startSegTick);	
-			}
+		
+		////////////////////////////////
+	
+		cursor.track = targetStaff * 4; //// set cursor to staff above
+		cursor.rewindToTick(startSegTick); // go back to beginning of selection
+		
+		/////// In case the startSegTick at lower staff falls within the space of an element, 
+		/////// (cursor.tick in this case returns tick of next element)
+		//////// navigate to previous element and addRest until element tick coincides with startSegTick. 			
+					
+		if (cursor.tick > startSegTick){	/// for empty measures with odd time signature, in order not to end up with awkward rest durations resulting from dividing by 2.
+			cursor.prev();
+			cursor.setDuration(1, 4);
+			cursor.addRest();					
+			cursor.rewindToTick(startSegTick);	
+		}
 
-			while(cursor.tick > startSegTick){	
-				cursor.prev();
-				var n=cursor.element.duration.numerator;
-				var d=cursor.element.duration.denominator;					
-				cursor.setDuration(n, d*2);
-				cursor.addRest();					
-				cursor.rewindToTick(startSegTick);					
-			}														
+		while(cursor.tick > startSegTick){	
+			cursor.prev();
+			var n=cursor.element.duration.numerator;
+			var d=cursor.element.duration.denominator;					
+			cursor.setDuration(n, d*2);
+			cursor.addRest();					
+			cursor.rewindToTick(startSegTick);					
+		}														
+		
 			
-				
-					///////////////////////////////////////////////      		
-			
-			if (cursor.element.type==Element.CHORD){ ///special case to select chords if they exist
-				curScore.selection.select(cursor.element.notes[0])
-			}else {
-				curScore.selection.select(cursor.element)
-			}
+				///////////////////////////////////////////////      		
+		
+		if (cursor.element.type==Element.CHORD){ ///special case to select chords if they exist
+			curScore.selection.select(cursor.element.notes[0])
+		}else {
+			curScore.selection.select(cursor.element)
+		}
 
-			cmd("paste");
-			
-			
-			curScore.endCmd()			 
-		}///end else
+		cmd("paste");
+		
+		
+		curScore.endCmd()			 
+
 	}///end onRun
 }	

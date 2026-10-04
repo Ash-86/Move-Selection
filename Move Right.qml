@@ -64,7 +64,7 @@ MuseScore {
 		var startStaff = cursor.staffIdx;
 		var startTrack = startStaff * 4;
 		///////////////////////////////////////////////////////////////
-		curScore.startCmd();
+		curScore.startCmd("Move right");
 
 		
 		cmd("copy");

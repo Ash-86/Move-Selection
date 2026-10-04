@@ -68,7 +68,7 @@ MuseScore {
 		if (startSegTick==0) { 
 			return
 		}else{
-			curScore.startCmd();
+			curScore.startCmd("Move left");
 
 			cmd("copy");
 			
